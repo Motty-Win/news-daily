@@ -17,7 +17,7 @@ Daily News Summarizerは、複数のRSSフィードからニュースを取得�
 ## インストール
 1. リポジトリをクローンします。
    ```bash
-   git clone https://github.com/*****
+   git clone https://github.com/Motty-Win/news-daily.git
    ```
 2. 必要なライブラリをインストールします。
    ```bash
