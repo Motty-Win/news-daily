@@ -78,7 +78,15 @@ if start_button:
             except Exception as e:
                 s = f"要約に失敗しました: {e}"
 
-        st.markdown(s)
+        # 文字をゆっくり表示
+        placeholder = st.empty()
+        slow_text = ""
+        for char in s:
+            slow_text += char
+            placeholder.markdown(slow_text)  # プレースホルダーを使用して更新
+            time.sleep(0.05)  # 表示速度を調整
+
+        # 最後に再度表示しないようにする
         md_out.append(s)
         with st.expander("🔎 関連記事一覧"):
             for it in section_items:
