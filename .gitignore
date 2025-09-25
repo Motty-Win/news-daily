@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.env
+
+# Streamlit
+.streamlit/
+**/.streamlit/
+
+# OS / Editor
+.DS_Store
+.vscode/
+
+# Cache / etc.
+*.log

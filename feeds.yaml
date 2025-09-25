@@ -1,0 +1,10 @@
+- name: 日本 経済
+  url: https://www3.nhk.or.jp/rss/news/cat5.xml
+- name: テクノロジー
+  url: https://rss.itmedia.co.jp/rss/2.0/itmedia_all.xml
+- name: 海外 総合
+  url: https://feeds.bbci.co.uk/news/world/rss.xml
+- name: スポーツ
+  url: https://www.espn.com/espn/rss/news
+- name: サイエンス
+  url: https://www.sciencemag.org/rss/news_current.xml
