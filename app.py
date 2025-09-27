@@ -6,7 +6,7 @@ from utils.nlp import cluster_by_title
 
 # アプリ基本情報
 st.set_page_config(page_title="Daily News Summarizer", layout="wide")
-st.title("📰 一日ニュースまとめ（MVP）")
+st.title("📰 一日ニュースまとめ")
 
 # RSSフィード読み込み
 # エラーハンドリングを追加
@@ -26,7 +26,7 @@ with st.sidebar:
     category_limits = {}
     for feed in feeds:
         category_limits[feed["name"]] = st.number_input(
-            f"{feed['name']}の最大記事数", min_value=1, max_value=30, value=5, step=1
+            f"{feed['name']}の最大記事数", min_value=1, max_value=15, value=3, step=1
         )
     do_cluster = st.checkbox("類似記事をまとめる", value=True)
     threshold = 0.6  # デフォルト値を設定
@@ -68,7 +68,7 @@ if start_button:
         st.subheader(f"{ci}. {head}")
 
         merged_text = "\n\n".join(
-            f"- {it['title']}（{it['source']}）\n{it['summary']}\n{it['link']}"
+            f"- {it['title']}（{it['source']}）\n{it['summary']}\n{it['link']}\n（カテゴリ: {it['category']}）"
             for it in section_items
         )
 
@@ -78,21 +78,13 @@ if start_button:
             except Exception as e:
                 s = f"要約に失敗しました: {e}"
 
-        # 文字をゆっくり表示
-        placeholder = st.empty()
-        slow_text = ""
-        for char in s:
-            slow_text += char
-            placeholder.markdown(slow_text)  # プレースホルダーを使用して更新
-            time.sleep(0.05)  # 表示速度を調整
-
-        # 最後に再度表示しないようにする
+        st.markdown(f"{s}\n\n（カテゴリ: {section_items[0]['category']}）")
         md_out.append(s)
         with st.expander("🔎 関連記事一覧"):
             for it in section_items:
                 st.markdown(
                     f"- **[{it['title']}]({it['link']})**  · {it['source']} · "
-                    f"{time.strftime('%Y-%m-%d %H:%M', time.localtime(it['published_ts']))}"
+                    f"{time.strftime('%Y-%m-%d %H:%M', time.localtime(it['published_ts']))} · カテゴリ: {it['category']}"
                 )
 
     # Markdownとして出力保存
