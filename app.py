@@ -13,6 +13,9 @@ st.title("📰 一日ニュースまとめ")
 try:
     with open("feeds.yaml", "r") as f:
         feeds = yaml.safe_load(f)
+        if not feeds:
+            st.error("feeds.yaml が空です。フィードを追加してください。")
+            st.stop()
 except FileNotFoundError:
     st.error("feeds.yaml ファイルが見つかりません。")
     st.stop()
@@ -39,10 +42,13 @@ with st.sidebar:
 if start_button:
     rows = []
     for feed in feeds:
-        items = fetch_feed(feed["url"])[: category_limits[feed["name"]]]
-        for it in items:
-            it["category"] = feed["name"]
-        rows.extend(items)
+        try:
+            items = fetch_feed(feed["url"])[: category_limits[feed["name"]]]
+            for it in items:
+                it["category"] = feed["name"]
+            rows.extend(items)
+        except Exception as e:
+            st.warning(f"フィードの取得中にエラーが発生しました ({feed['name']}): {e}")
 
     # 日付順で並べ替え（新しい順）
     rows = sorted(rows, key=lambda x: x["published_ts"], reverse=True)
